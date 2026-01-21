@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track je nuchtere dagen en zie dagelijks positieve gezondheidsvoordelen">
+  <meta name="theme-color" content="#10b981">
+  <title>Nuchtere Dagen Tracker</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(to bottom right, #f0fdf4, #ffffff, #ecfdf5);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 896px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 2rem;
+      }
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #d1fae5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-content {
+      max-width: 896px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #1f2937;
+    }
+
+    .header-button {
+      font-size: 0.875rem;
+      color: #059669;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+      padding: 0.5rem;
+    }
+
+    .header-button:hover {
+      color: #047857;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border: 1px solid #d1fae5;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: 3rem;
+      }
+    }
+
+    .card-hover {
+      transition: transform 0.2s;
+    }
+
+    .card-hover:hover {
+      transform: scale(1.02);
+    }
+
+    .center-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .date-picker-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 2rem;
+      max-width: 28rem;
+      width: 100%;
+      border: 1px solid #d1fae5;
+    }
+
+    @media (min-width: 768px) {
+      .date-picker-card {
+        padding: 3rem;
+      }
+    }
+
+    .icon-circle {
+      display: inline-flex;
+      padding: 1rem;
+      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      font-size: 3rem;
+    }
+
+    .icon-circle-small {
+      padding: 0.75rem;
+      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      display: inline-flex;
+      font-size: 2rem;
+    }
+
+    .icon-white {
+      padding: 0.75rem;
+      background: white;
+      border-radius: 9999px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      font-size: 1.5rem;
+    }
+
+    .title-large {
+      font-size: 1.875rem;
+      font-weight: 300;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #4b5563;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .input-datetime {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #bbf7d0;
+      border-radius: 0.75rem;
+      font-size: 1.125rem;
+      margin-bottom: 1.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .input-datetime:focus {
+      outline: none;
+      border-color: #4ade80;
+    }
+
+    .button-primary {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(to right, #10b981, #059669);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .button-primary:hover:not(:disabled) {
+      background: linear-gradient(to right, #059669, #047857);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .button-danger {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(to right, #ef4444, #ec4899);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .button-danger:hover {
+      background: linear-gradient(to right, #dc2626, #db2777);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-confirm {
+      padding: 0.5rem 1.25rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .button-confirm:hover {
+      background: #b91c1c;
+    }
+
+    .button-cancel {
+      padding: 0.5rem 1.25rem;
+      background: #e5e7eb;
+      color: #374151;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .button-cancel:hover {
+      background: #d1d5db;
+    }
+
+    .text-small {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 1rem;
+    }
+
+    .counter-title {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #4b5563;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .counter-grid {
+        gap: 2rem;
+      }
+    }
+
+    .counter-item {
+      text-align: center;
+    }
+
+    .counter-number {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .counter-number {
+        font-size: 3.75rem;
+      }
+    }
+
+    .counter-number-green {
+      color: #059669;
+    }
+
+    .counter-number-emerald {
+      color: #10b981;
+    }
+
+    .counter-number-teal {
+      color: #14b8a6;
+    }
+
+    .counter-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .divider {
+      padding-top: 1.5rem;
+      border-top: 1px solid #d1fae5;
+      text-align: center;
+    }
+
+    .next-milestone-label {
+      font-size: 0.875rem;
+      color: #4b5563;
+      margin-bottom: 0.5rem;
+    }
+
+    .next-milestone-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .milestone-icon {
+      font-size: 1.5rem;
+    }
+
+    .milestone-title {
+      font-size: 1.125rem;
+      font-weight: 300;
+      color: #1f2937;
+    }
+
+    .milestone-remaining {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .benefit-card {
+      background: linear-gradient(to bottom right, #f0fdf4, #ecfdf5);
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border: 1px solid #bbf7d0;
+      margin-bottom: 1.5rem;
+    }
+
+    .benefit-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .benefit-text {
+      flex: 1;
+    }
+
+    .benefit-title {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .benefit-description {
+      color: #374151;
+      line-height: 1.625;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #1f2937;
+    }
+
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .milestone-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .milestone-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .milestone-card {
+      padding: 1.25rem;
+      border-radius: 1rem;
+      border: 2px solid #d1d5db;
+      transition: all 0.2s;
+    }
+
+    .milestone-achieved {
+      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+      border-color: #86efac;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .milestone-pending {
+      background: #f9fafb;
+      opacity: 0.5;
+    }
+
+    .milestone-header {
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .milestone-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-name {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+
+    .milestone-badge {
+      font-size: 0.75rem;
+      color: #059669;
+      font-weight: 500;
+    }
+
+    .milestone-benefit {
+      padding-top: 0.75rem;
+      border-top: 1px solid #bbf7d0;
+    }
+
+    .milestone-benefit-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.25rem;
+    }
+
+    .milestone-benefit-text {
+      font-size: 0.75rem;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .reset-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      border: 1px solid #fecaca;
+      text-align: center;
+    }
+
+    .reset-title {
+      font-size: 1.125rem;
+      font-weight: 300;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .confirm-text {
+      font-size: 0.875rem;
+      color: #374151;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .space-y {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script>
+    // App state
+    let startDate = localStorage.getItem('sobrietyStartDate') || null;
+    let showDatePicker = !startDate;
+    let timeElapsed = { days: 0, hours: 0, minutes: 0 };
+    let currentBenefit = null;
+    let tempDate = '';
+    let showResetConfirm = false;
+
+    const benefits = [
+      { day: 1, title: "Een nieuwe start", text: "Je lichaam begint al met herstel. Je slaapkwaliteit verbetert vannacht.", icon: "🌟" },
+      { day: 2, title: "Herstel begint", text: "Je lever begint zich te herstellen. Energie levels beginnen te normaliseren.", icon: "💪" },
+      { day: 3, title: "Helderheid", text: "Je concentratie en mentale helderheid nemen toe. Minder brain fog.", icon: "✨" },
+      { day: 4, title: "Betere slaap", text: "Je REM-slaap verbetert significant, wat leidt tot betere cognitie.", icon: "😴" },
+      { day: 5, title: "Gezondere huid", text: "Je huid wordt gehydrateerder en begint te stralen.", icon: "✨" },
+      { day: 7, title: "Een week vrij!", text: "Je bloeddruk normaliseert. Je immuunsysteem wordt sterker.", icon: "🌱" },
+      { day: 10, title: "Gewichtsverlies", text: "Gemiddeld verlies van 2-3 kg door verminderde calorieën en minder vochtretentie.", icon: "⚖️" },
+      { day: 14, title: "Twee weken kracht", text: "Je lever functioneert nu 15-20% beter. Duidelijk meer energie.", icon: "🌿" },
+      { day: 21, title: "Nieuwe gewoonten", text: "Je hebt een nieuwe, gezonde gewoonte gevormd. Je voelt je mentaal sterker.", icon: "🧠" },
+      { day: 30, title: "Een maand gelukt!", text: "Je lever is bijna volledig hersteld. Je slaapkwaliteit is optimaal.", icon: "🌳" },
+      { day: 60, title: "Twee maanden!", text: "Je huid ziet er jaren jonger uit. Ontstekingen in je lichaam zijn sterk verminderd.", icon: "🌲" },
+      { day: 90, title: "Drie maanden vrij", text: "Je immuunsysteem werkt op topniveau. Risico op hartziekten is gedaald.", icon: "🏆" },
+      { day: 180, title: "Een half jaar!", text: "Je hersenen zijn significant hersteld. Betere geheugen en besluitvorming.", icon: "⭐" },
+      { day: 365, title: "Een heel jaar!", text: "Je hebt het risico op leverziekten met 50% verminderd. Ongelooflijke prestatie!", icon: "👑" }
+    ];
+
+    const milestones = [
+      { days: 1, title: "1 Dag", icon: "🌟" },
+      { days: 2, title: "2 Dagen", icon: "💪" },
+      { days: 3, title: "3 Dagen", icon: "✨" },
+      { days: 4, title: "4 Dagen", icon: "😴" },
+      { days: 5, title: "5 Dagen", icon: "✨" },
+      { days: 7, title: "1 Week", icon: "🌱" },
+      { days: 10, title: "10 Dagen", icon: "⚖️" },
+      { days: 14, title: "2 Weken", icon: "🌿" },
+      { days: 21, title: "3 Weken", icon: "🧠" },
+      { days: 30, title: "1 Maand", icon: "🌳" },
+      { days: 60, title: "2 Maanden", icon: "🌲" },
+      { days: 90, title: "3 Maanden", icon: "🏆" },
+      { days: 180, title: "6 Maanden", icon: "⭐" },
+      { days: 365, title: "1 Jaar", icon: "👑" }
+    ];
+
+    function updateTime() {
+      if (!startDate) return;
+      
+      const start = new Date(startDate);
+      const now = new Date();
+      const diff = now - start;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      timeElapsed = { days, hours, minutes };
+
+      const benefit = benefits.slice().reverse().find(b => days >= b.day) || benefits[0];
+      currentBenefit = benefit;
+    }
+
+    function handleSetStartDate(date) {
+      localStorage.setItem('sobrietyStartDate', date);
+      startDate = date;
+      showDatePicker = false;
+      tempDate = '';
+      render();
+    }
+
+    function handleConfirmDate() {
+      if (tempDate) {
+        handleSetStartDate(tempDate);
+      }
+    }
+
+    function resetJourney() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const dateString = `${year}-${month}-${day}T${hours}:${minutes}`;
+      
+      localStorage.setItem('sobrietyStartDate', dateString);
+      startDate = dateString;
+      showResetConfirm = false;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function render() {
+      const root = document.getElementById('root');
+      
+      if (showDatePicker) {
+        root.innerHTML = `
+          <div class="center-screen">
+            <div class="date-picker-card">
+              <div style="text-align: center;">
+                <div class="icon-circle">✨</div>
+                <h1 class="title-large">Begin je reis</h1>
+                <p class="subtitle">Wanneer begon je nuchtere leven?</p>
+              </div>
+              
+              <input
+                type="datetime-local"
+                id="dateInput"
+                class="input-datetime"
+                max="${new Date().toISOString().slice(0, 16)}"
+              />
+              
+              <button id="confirmBtn" class="button-primary" disabled>
+                Begin mijn reis
+              </button>
+              
+              <div class="text-small">
+                Je kunt dit later altijd aanpassen
+              </div>
+            </div>
+          </div>
+        `;
+        
+        const dateInput = document.getElementById('dateInput');
+        const confirmBtn = document.getElementById('confirmBtn');
+        
+        dateInput.addEventListener('input', (e) => {
+          tempDate = e.target.value;
+          confirmBtn.disabled = !tempDate;
+        });
+        
+        confirmBtn.addEventListener('click', handleConfirmDate);
+        
+      } else {
+        updateTime();
+        const nextMilestone = milestones.find(m => m.days > timeElapsed.days);
+        
+        root.innerHTML = `
+          <div>
+            <div class="header">
+              <div class="header-content">
+                <h1 class="header-title">Mijn Nuchtere Reis</h1>
+                <button id="editBtn" class="header-button">
+                  📅 Aanpassen
+                </button>
+              </div>
+            </div>
+
+            <div class="container space-y">
+              <div class="card card-hover">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                  <div class="icon-circle-small">📈</div>
+                  <h2 class="counter-title">Nuchter sinds</h2>
+                </div>
+                
+                <div class="counter-grid">
+                  <div class="counter-item">
+                    <div class="counter-number counter-number-green">
+                      ${timeElapsed.days}
+                    </div>
+                    <div class="counter-label">
+                      ${timeElapsed.days === 1 ? 'Dag' : 'Dagen'}
+                    </div>
+                  </div>
+                  <div class="counter-item">
+                    <div class="counter-number counter-number-emerald">
+                      ${timeElapsed.hours}
+                    </div>
+                    <div class="counter-label">
+                      ${timeElapsed.hours === 1 ? 'Uur' : 'Uren'}
+                    </div>
+                  </div>
+                  <div class="counter-item">
+                    <div class="counter-number counter-number-teal">
+                      ${timeElapsed.minutes}
+                    </div>
+                    <div class="counter-label">
+                      ${timeElapsed.minutes === 1 ? 'Minuut' : 'Minuten'}
+                    </div>
+                  </div>
+                </div>
+
+                ${nextMilestone ? `
+                  <div class="divider">
+                    <p class="next-milestone-label">Volgende mijlpaal</p>
+                    <div class="next-milestone-content">
+                      <span class="milestone-icon">${nextMilestone.icon}</span>
+                      <span class="milestone-title">${nextMilestone.title}</span>
+                      <span class="milestone-remaining">
+                        (nog ${nextMilestone.days - timeElapsed.days} ${nextMilestone.days - timeElapsed.days === 1 ? 'dag' : 'dagen'})
+                      </span>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+
+              ${currentBenefit ? `
+                <div class="benefit-card">
+                  <div class="benefit-content">
+                    <div class="icon-white">✨</div>
+                    <div class="benefit-text">
+                      <h3 class="benefit-title">
+                        ${currentBenefit.title}
+                      </h3>
+                      <p class="benefit-description">
+                        ${currentBenefit.text}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ` : ''}
+
+              <div class="card">
+                <div class="section-header">
+                  <span style="font-size: 1.5rem;">🏆</span>
+                  <h3 class="section-title">Behaalde Mijlpalen</h3>
+                </div>
+                
+                <div class="milestone-grid">
+                  ${milestones.map((milestone) => {
+                    const achieved = timeElapsed.days >= milestone.days;
+                    const benefit = benefits.find(b => b.day === milestone.days);
+                    return `
+                      <div class="milestone-card ${achieved ? 'milestone-achieved' : 'milestone-pending'}">
+                        <div class="milestone-header">
+                          <div class="milestone-emoji">${milestone.icon}</div>
+                          <div class="milestone-name">${milestone.title}</div>
+                          ${achieved ? '<div class="milestone-badge">✓ Behaald</div>' : ''}
+                        </div>
+                        ${benefit && achieved ? `
+                          <div class="milestone-benefit">
+                            <div class="milestone-benefit-title">${benefit.title}</div>
+                            <div class="milestone-benefit-text">${benefit.text}</div>
+                          </div>
+                        ` : ''}
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              <div class="reset-card">
+                <h3 class="reset-title">Opnieuw beginnen?</h3>
+                ${!showResetConfirm ? `
+                  <button id="resetBtn" class="button-danger">
+                    Reis opnieuw beginnen
+                  </button>
+                  <p class="text-small">Dit zet je startdatum op nu</p>
+                ` : `
+                  <div>
+                    <p class="confirm-text">Weet je het zeker? Dit zet je startdatum op nu.</p>
+                    <div class="button-group">
+                      <button id="confirmResetBtn" class="button-confirm">
+                        Ja, opnieuw beginnen
+                      </button>
+                      <button id="cancelResetBtn" class="button-cancel">
+                        Annuleren
+                      </button>
+                    </div>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('editBtn').addEventListener('click', () => {
+          showDatePicker = true;
+          render();
+        });
+        
+        const resetBtn = document.getElementById('resetBtn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            showResetConfirm = true;
+            render();
+          });
+        }
+        
+        const confirmResetBtn = document.getElementById('confirmResetBtn');
+        if (confirmResetBtn) {
+          confirmResetBtn.addEventListener('click', resetJourney);
+        }
+        
+        const cancelResetBtn = document.getElementById('cancelResetBtn');
+        if (cancelResetBtn) {
+          cancelResetBtn.addEventListener('click', () => {
+            showResetConfirm = false;
+            render();
+          });
+        }
+      }
+    }
+
+    // Initial render
+    render();
+
+    // Update time every second
+    if (startDate) {
+      setInterval(() => {
+        if (!showDatePicker) {
+          updateTime();
+          // Update only the time display without full re-render
+          const days = document.querySelector('.counter-number-green');
+          const hours = document.querySelector('.counter-number-emerald');
+          const minutes = document.querySelector('.counter-number-teal');
+          
+          if (days) days.textContent = timeElapsed.days;
+          if (hours) hours.textContent = timeElapsed.hours;
+          if (minutes) minutes.textContent = timeElapsed.minutes;
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
