@@ -520,36 +520,38 @@
     let showResetConfirm = false;
 
     const benefits = [
-      { day: 1, title: "Een nieuwe start", text: "Je lichaam begint al met herstel. Je slaapkwaliteit verbetert vannacht.", icon: "🌟" },
-      { day: 2, title: "Herstel begint", text: "Je lever begint zich te herstellen. Energie levels beginnen te normaliseren.", icon: "💪" },
-      { day: 3, title: "Helderheid", text: "Je concentratie en mentale helderheid nemen toe. Minder brain fog.", icon: "✨" },
-      { day: 4, title: "Betere slaap", text: "Je REM-slaap verbetert significant, wat leidt tot betere cognitie.", icon: "😴" },
-      { day: 5, title: "Gezondere huid", text: "Je huid wordt gehydrateerder en begint te stralen.", icon: "✨" },
-      { day: 7, title: "Een week vrij!", text: "Je bloeddruk normaliseert. Je immuunsysteem wordt sterker.", icon: "🌱" },
-      { day: 10, title: "Gewichtsverlies", text: "Gemiddeld verlies van 2-3 kg door verminderde calorieën en minder vochtretentie.", icon: "⚖️" },
-      { day: 14, title: "Twee weken kracht", text: "Je lever functioneert nu 15-20% beter. Duidelijk meer energie.", icon: "🌿" },
-      { day: 21, title: "Nieuwe gewoonten", text: "Je hebt een nieuwe, gezonde gewoonte gevormd. Je voelt je mentaal sterker.", icon: "🧠" },
-      { day: 30, title: "Een maand gelukt!", text: "Je lever is bijna volledig hersteld. Je slaapkwaliteit is optimaal.", icon: "🌳" },
-      { day: 60, title: "Twee maanden!", text: "Je huid ziet er jaren jonger uit. Ontstekingen in je lichaam zijn sterk verminderd.", icon: "🌲" },
-      { day: 90, title: "Drie maanden vrij", text: "Je immuunsysteem werkt op topniveau. Risico op hartziekten is gedaald.", icon: "🏆" },
-      { day: 180, title: "Een half jaar!", text: "Je hersenen zijn significant hersteld. Betere geheugen en besluitvorming.", icon: "⭐" },
-      { day: 365, title: "Een heel jaar!", text: "Je hebt het risico op leverziekten met 50% verminderd. Ongelooflijke prestatie!", icon: "👑" }
+      { day: 1, title: "Bloedsuiker stabiliseert", text: "Je bloedsuikerspiegel stabiliseert. De focus van je lever verschuift van alcohol verwerken naar het reguleren van je energie. Je kunt je nog wat wankel of zweterig voelen, maar de acute giftigheid neemt af.", icon: "🌟" },
+      { day: 2, title: "Systeem reinigt zich", text: "De laatste resten alcohol verlaten je systeem. Je nieren werken efficiënter en je hydratatie verbetert. Hoofdpijn (door uitdroging) begint weg te trekken.", icon: "💪" },
+      { day: 3, title: "Hangxiety verdwijnt", text: "De beruchte 'hangxiety' (angstgevoelens na drank) ebt weg. Je zenuwstelsel kalmeert. Je bloeddruk begint te normaliseren.", icon: "✨" },
+      { day: 4, title: "Spijsvertering herstelt", text: "Je spijsvertering herstelt. Alcohol irriteert het maagslijmvlies; zonder die prikkel neemt je lichaam voedingsstoffen weer beter op.", icon: "🍃" },
+      { day: 5, title: "Diepere slaap", text: "Je begint beter door te slapen. Hoewel alcohol je helpt inslapen, verpest het de kwaliteit. Na 5 dagen begin je weer in de diepe, herstellende slaapfasen te komen.", icon: "😴" },
+      { day: 7, title: "REM-slaap herstelt", text: "Je REM-slaap (droomslaap) herstelt zich volledig. Dit is cruciaal voor emotionele verwerking en geheugen. Je hebt meer energie overdag en je mentale focus neemt toe.", icon: "🌱" },
+      { day: 10, title: "Frissere huid", text: "Je huid ziet er frisser uit. Alcohol verwijdt de bloedvaten en onttrekt vocht; na 10 dagen zie je minder roodheid en wallen.", icon: "✨" },
+      { day: 14, title: "Maagklachten verdwijnen", text: "Brandend maagzuur en reflux nemen significant af. Ook begin je gewicht te verliezen (alcohol bevat veel 'lege' calorieën en vertraagt de vetverbranding).", icon: "🌿" },
+      { day: 21, title: "Hersenmist verdwijnt", text: "Je concentratievermogen en cognitieve functies verbeteren. Het 'hersenmist'-gevoel verdwijnt doordat de communicatie tussen neuronen weer soepeler verloopt.", icon: "🧠" },
+      { day: 30, title: "Lever ontvet", text: "De leververvetting neemt af. Onderzoek toont aan dat na 30 dagen nuchterheid het vetpercentage in de lever met gemiddeld 15% tot 20% kan dalen. Je immuunsysteem wordt sterker.", icon: "🌳" },
+      { day: 60, title: "Hart ontspant", text: "Je bloeddruk is stabieler en je hart hoeft minder hard te werken. Je algemene stressniveau daalt omdat je cortisolspiegel (het stresshormoon) niet meer constant geprikkeld wordt door alcoholgebruik.", icon: "💚" },
+      { day: 90, title: "Bloedbeeld verbetert", text: "Je bloedbeeld verbetert aanzienlijk. Rode bloedcellen zijn gezonder, wat zorgt voor een beter zuurstoftransport. Bij mannen verbetert de spermakwaliteit; bij vrouwen de hormonale balans.", icon: "🏆" },
+      { day: 180, title: "Brein reset compleet", text: "De neurotransmitters in je brein (zoals dopamine en GABA) zijn gereset. Je bent weer in staat om plezier te beleven aan kleine dingen zonder de 'kick' van alcohol. Je mentale veerkracht is op een hoogtepunt.", icon: "⭐" },
+      { day: 270, title: "Lever bijna optimaal", text: "De lever heeft een enorme zelfgenezende capaciteit getoond. Tenzij er sprake was van blijvende littekens (cirrose), functioneert je lever nu weer bijna optimaal. Je weerstand tegen infecties is maximaal.", icon: "💎" },
+      { day: 365, title: "Gezondheidsrisico gehalveerd", text: "Het risico op verschillende soorten kanker (mond, keel, lever, borst) is drastisch verlaagd. Je hart- en vaatziektenrisico is gehalveerd ten opzichte van een zware drinker. Je bent mentaal scherper, fysiek fitter en je hebt waarschijnlijk een aanzienlijk bedrag bespaard.", icon: "👑" }
     ];
 
     const milestones = [
       { days: 1, title: "1 Dag", icon: "🌟" },
       { days: 2, title: "2 Dagen", icon: "💪" },
       { days: 3, title: "3 Dagen", icon: "✨" },
-      { days: 4, title: "4 Dagen", icon: "😴" },
-      { days: 5, title: "5 Dagen", icon: "✨" },
+      { days: 4, title: "4 Dagen", icon: "🍃" },
+      { days: 5, title: "5 Dagen", icon: "😴" },
       { days: 7, title: "1 Week", icon: "🌱" },
-      { days: 10, title: "10 Dagen", icon: "⚖️" },
+      { days: 10, title: "10 Dagen", icon: "✨" },
       { days: 14, title: "2 Weken", icon: "🌿" },
       { days: 21, title: "3 Weken", icon: "🧠" },
       { days: 30, title: "1 Maand", icon: "🌳" },
-      { days: 60, title: "2 Maanden", icon: "🌲" },
+      { days: 60, title: "2 Maanden", icon: "💚" },
       { days: 90, title: "3 Maanden", icon: "🏆" },
       { days: 180, title: "6 Maanden", icon: "⭐" },
+      { days: 270, title: "9 Maanden", icon: "💎" },
       { days: 365, title: "1 Jaar", icon: "👑" }
     ];
 
