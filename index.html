@@ -8,6 +8,47 @@
   <title>Nuchtere Dagen Tracker</title>
   
   <style>
+    /* Definieer kleurvariabelen voor de thema's */
+    :root {
+      /* Standaard Groen (Emerald) */
+      --bg-gradient-1: #f0fdf4;
+      --bg-gradient-2: #ecfdf5;
+      --border-light: #d1fae5;
+      --border-medium: #bbf7d0;
+      --border-dark: #86efac;
+      --text-accent: #059669;
+      --text-accent-hover: #047857;
+      --primary-main: #10b981;
+      --primary-gradient-start: #10b981;
+      --primary-gradient-end: #059669;
+      --input-focus: #4ade80;
+      --counter-1: #059669;
+      --counter-2: #10b981;
+      --counter-3: #14b8a6;
+      --icon-bg-1: #d1fae5;
+      --icon-bg-2: #a7f3d0;
+    }
+
+    /* Sportmodus Blauw (Sky) */
+    body.sport-mode {
+      --bg-gradient-1: #f0f9ff;
+      --bg-gradient-2: #e0f2fe;
+      --border-light: #e0f2fe;
+      --border-medium: #bae6fd;
+      --border-dark: #7dd3fc;
+      --text-accent: #0284c7;
+      --text-accent-hover: #0369a1;
+      --primary-main: #0ea5e9;
+      --primary-gradient-start: #0ea5e9;
+      --primary-gradient-end: #0284c7;
+      --input-focus: #38bdf8;
+      --counter-1: #0284c7;
+      --counter-2: #0ea5e9;
+      --counter-3: #06b6d4;
+      --icon-bg-1: #e0f2fe;
+      --icon-bg-2: #bae6fd;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -18,8 +59,9 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background: linear-gradient(to bottom right, #f0fdf4, #ffffff, #ecfdf5);
+      background: linear-gradient(to bottom right, var(--bg-gradient-1), #ffffff, var(--bg-gradient-2));
       min-height: 100vh;
+      transition: background 0.3s ease;
     }
 
     .container {
@@ -37,10 +79,11 @@
     .header {
       background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #d1fae5;
+      border-bottom: 1px solid var(--border-light);
       position: sticky;
       top: 0;
       z-index: 10;
+      transition: border-color 0.3s;
     }
 
     .header-content {
@@ -76,7 +119,7 @@
 
     .header-button {
       font-size: 0.875rem;
-      color: #059669;
+      color: var(--text-accent);
       background: none;
       border: none;
       cursor: pointer;
@@ -88,7 +131,7 @@
     }
 
     .header-button:hover {
-      color: #047857;
+      color: var(--text-accent-hover);
     }
 
     .mode-toggle-container {
@@ -98,7 +141,8 @@
       padding: 0.5rem 1rem;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 2rem;
-      border: 1px solid #d1fae5;
+      border: 1px solid var(--border-light);
+      transition: border-color 0.3s;
     }
 
     .mode-toggle-label {
@@ -121,7 +165,7 @@
     }
 
     .toggle-switch.active {
-      background: #10b981;
+      background: var(--primary-main);
     }
 
     .toggle-slider {
@@ -145,8 +189,9 @@
       border-radius: 1.5rem;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       padding: 2rem;
-      border: 1px solid #d1fae5;
+      border: 1px solid var(--border-light);
       margin-bottom: 1.5rem;
+      transition: border-color 0.3s;
     }
 
     @media (min-width: 768px) {
@@ -178,7 +223,32 @@
       padding: 2rem;
       max-width: 28rem;
       width: 100%;
-      border: 1px solid #d1fae5;
+      border: 1px solid var(--border-light);
+      position: relative; /* Voor het kruisje */
+    }
+
+    /* Nieuwe stijl voor het kruisje */
+    .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #9ca3af;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .close-button:hover {
+      background-color: #f3f4f6;
+      color: #374151;
     }
 
     @media (min-width: 768px) {
@@ -190,7 +260,7 @@
     .icon-circle {
       display: inline-flex;
       padding: 1rem;
-      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+      background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
       border-radius: 9999px;
       margin-bottom: 1rem;
       font-size: 3rem;
@@ -198,7 +268,7 @@
 
     .icon-circle-small {
       padding: 0.75rem;
-      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+      background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
       border-radius: 9999px;
       margin-bottom: 1rem;
       display: inline-flex;
@@ -230,7 +300,7 @@
     .input-datetime {
       width: 100%;
       padding: 1rem;
-      border: 2px solid #bbf7d0;
+      border: 2px solid var(--border-medium);
       border-radius: 0.75rem;
       font-size: 1.125rem;
       margin-bottom: 1.5rem;
@@ -239,13 +309,13 @@
 
     .input-datetime:focus {
       outline: none;
-      border-color: #4ade80;
+      border-color: var(--input-focus);
     }
 
     .button-primary {
       width: 100%;
       padding: 1rem 1.5rem;
-      background: linear-gradient(to right, #10b981, #059669);
+      background: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
       color: white;
       border: none;
       border-radius: 0.75rem;
@@ -256,7 +326,7 @@
     }
 
     .button-primary:hover:not(:disabled) {
-      background: linear-gradient(to right, #059669, #047857);
+      opacity: 0.95;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
@@ -328,8 +398,8 @@
     }
 
     .counter-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      justify-content: center;
       gap: 1rem;
       margin-bottom: 2rem;
     }
@@ -348,6 +418,7 @@
       font-size: 3rem;
       font-weight: 300;
       margin-bottom: 0.5rem;
+      transition: color 0.3s;
     }
 
     @media (min-width: 768px) {
@@ -357,15 +428,15 @@
     }
 
     .counter-number-green {
-      color: #059669;
+      color: var(--counter-1);
     }
 
     .counter-number-emerald {
-      color: #10b981;
+      color: var(--counter-2);
     }
 
     .counter-number-teal {
-      color: #14b8a6;
+      color: var(--counter-3);
     }
 
     .counter-label {
@@ -377,7 +448,7 @@
 
     .divider {
       padding-top: 1.5rem;
-      border-top: 1px solid #d1fae5;
+      border-top: 1px solid var(--border-light);
       text-align: center;
     }
 
@@ -411,11 +482,11 @@
     }
 
     .benefit-card {
-      background: linear-gradient(to bottom right, #f0fdf4, #ecfdf5);
+      background: linear-gradient(to bottom right, var(--bg-gradient-1), var(--bg-gradient-2));
       border-radius: 1.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       padding: 2rem;
-      border: 1px solid #bbf7d0;
+      border: 1px solid var(--border-medium);
       margin-bottom: 1.5rem;
     }
 
@@ -480,8 +551,8 @@
     }
 
     .milestone-achieved {
-      background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
-      border-color: #86efac;
+      background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
+      border-color: var(--border-dark);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
@@ -509,13 +580,13 @@
 
     .milestone-badge {
       font-size: 0.75rem;
-      color: #059669;
+      color: var(--text-accent);
       font-weight: 500;
     }
 
     .milestone-benefit {
       padding-top: 0.75rem;
-      border-top: 1px solid #bbf7d0;
+      border-top: 1px solid var(--border-medium);
     }
 
     .milestone-benefit-title {
@@ -667,7 +738,12 @@
 
     function handleConfirmDate() {
       if (tempDate) {
-        handleSetStartDate(tempDate);
+        // If it's a date-only string (YYYY-MM-DD), append start of day time to ensure it counts as full day
+        if (tempDate.length === 10) {
+            handleSetStartDate(tempDate + 'T00:00');
+        } else {
+            handleSetStartDate(tempDate);
+        }
       }
     }
 
@@ -688,12 +764,23 @@
     }
 
     function render() {
+      // Toggle body class for sport mode theme
+      document.body.classList.toggle('sport-mode', sportMode);
+      
       const root = document.getElementById('root');
       
       if (showDatePicker) {
+        // Alleen kruisje tonen als we aan het aanpassen zijn (er is al een startDate)
+        const closeBtnHtml = startDate ? `
+          <button id="closeDatePickerBtn" class="close-button" aria-label="Sluiten" title="Sluiten">
+            ✕
+          </button>
+        ` : '';
+
         root.innerHTML = `
           <div class="center-screen">
             <div class="date-picker-card">
+              ${closeBtnHtml}
               <div style="text-align: center;">
                 <div class="icon-circle">✨</div>
                 <h1 class="title-large">Begin je reis</h1>
@@ -701,10 +788,10 @@
               </div>
               
               <input
-                type="datetime-local"
+                type="date"
                 id="dateInput"
                 class="input-datetime"
-                max="${new Date().toISOString().slice(0, 16)}"
+                max="${new Date().toISOString().slice(0, 10)}"
               />
               
               <button id="confirmBtn" class="button-primary" disabled>
@@ -720,6 +807,7 @@
         
         const dateInput = document.getElementById('dateInput');
         const confirmBtn = document.getElementById('confirmBtn');
+        const closeBtn = document.getElementById('closeDatePickerBtn');
         
         dateInput.addEventListener('input', (e) => {
           tempDate = e.target.value;
@@ -727,6 +815,14 @@
         });
         
         confirmBtn.addEventListener('click', handleConfirmDate);
+        
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            showDatePicker = false;
+            tempDate = '';
+            render();
+          });
+        }
         
       } else {
         updateTime();
@@ -768,22 +864,6 @@
                     </div>
                     <div class="counter-label">
                       ${timeElapsed.days === 1 ? 'Dag' : 'Dagen'}
-                    </div>
-                  </div>
-                  <div class="counter-item">
-                    <div class="counter-number counter-number-emerald">
-                      ${timeElapsed.hours}
-                    </div>
-                    <div class="counter-label">
-                      ${timeElapsed.hours === 1 ? 'Uur' : 'Uren'}
-                    </div>
-                  </div>
-                  <div class="counter-item">
-                    <div class="counter-number counter-number-teal">
-                      ${timeElapsed.minutes}
-                    </div>
-                    <div class="counter-label">
-                      ${timeElapsed.minutes === 1 ? 'Minuut' : 'Minuten'}
                     </div>
                   </div>
                 </div>
@@ -917,12 +997,8 @@
           updateTime();
           // Update only the time display without full re-render
           const days = document.querySelector('.counter-number-green');
-          const hours = document.querySelector('.counter-number-emerald');
-          const minutes = document.querySelector('.counter-number-teal');
           
           if (days) days.textContent = timeElapsed.days;
-          if (hours) hours.textContent = timeElapsed.hours;
-          if (minutes) minutes.textContent = timeElapsed.minutes;
         }
       }, 1000);
     }
