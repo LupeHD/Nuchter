@@ -50,12 +50,28 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
     .header-title {
       font-size: 1.5rem;
       font-weight: 300;
       color: #1f2937;
+    }
+
+    @media (max-width: 640px) {
+      .header-title {
+        font-size: 1.25rem;
+      }
+      
+      .mode-toggle-container {
+        padding: 0.375rem 0.75rem;
+      }
+      
+      .mode-toggle-label {
+        font-size: 0.8rem;
+      }
     }
 
     .header-button {
@@ -73,6 +89,55 @@
 
     .header-button:hover {
       color: #047857;
+    }
+
+    .mode-toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 2rem;
+      border: 1px solid #d1fae5;
+    }
+
+    .mode-toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 3rem;
+      height: 1.5rem;
+      background: #e5e7eb;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch.active {
+      background: #10b981;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      background: white;
+      border-radius: 9999px;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(1.5rem);
     }
 
     .card {
@@ -518,6 +583,7 @@
     let currentBenefit = null;
     let tempDate = '';
     let showResetConfirm = false;
+    let sportMode = localStorage.getItem('sportMode') === 'true';
 
     const benefits = [
       { day: 1, title: "Bloedsuiker stabiliseert", text: "Je bloedsuikerspiegel stabiliseert. De focus van je lever verschuift van alcohol verwerken naar het reguleren van je energie. Je kunt je nog wat wankel of zweterig voelen, maar de acute giftigheid neemt af.", icon: "🌟" },
@@ -535,6 +601,24 @@
       { day: 180, title: "Brein reset compleet", text: "De neurotransmitters in je brein (zoals dopamine en GABA) zijn gereset. Je bent weer in staat om plezier te beleven aan kleine dingen zonder de 'kick' van alcohol. Je mentale veerkracht is op een hoogtepunt.", icon: "⭐" },
       { day: 270, title: "Lever bijna optimaal", text: "De lever heeft een enorme zelfgenezende capaciteit getoond. Tenzij er sprake was van blijvende littekens (cirrose), functioneert je lever nu weer bijna optimaal. Je weerstand tegen infecties is maximaal.", icon: "💎" },
       { day: 365, title: "Gezondheidsrisico gehalveerd", text: "Het risico op verschillende soorten kanker (mond, keel, lever, borst) is drastisch verlaagd. Je hart- en vaatziektenrisico is gehalveerd ten opzichte van een zware drinker. Je bent mentaal scherper, fysiek fitter en je hebt waarschijnlijk een aanzienlijk bedrag bespaard.", icon: "👑" }
+    ];
+
+    const sportBenefits = [
+      { day: 1, title: "Hydratatie normaliseert", text: "Je hydratatiestatus normaliseert. Alcohol is een diureticum (vochtafdrijvend). Zonder alcohol houdt je lichaam water en elektrolyten (zoals natrium en kalium) beter vast, wat cruciaal is voor spiercontracties en het voorkomen van krampen.", icon: "💧" },
+      { day: 2, title: "Gluconeogenese herstelt", text: "Je lever kan zich weer volledig richten op gluconeogenese (het aanmaken van glucose). Alcohol blokkeert dit proces, waardoor je bloedsuikerspiegel laag kan zijn. Nu heb je weer stabiele energie voor een intensieve training.", icon: "⚡" },
+      { day: 3, title: "HRV stijgt", text: "Je Heart Rate Variability (HRV) begint te stijgen. Een hogere HRV is een teken dat je zenuwstelsel hersteld is van de stress van alcohol. Je rusthartslag daalt, wat betekent dat je hart efficiënter pompt.", icon: "❤️" },
+      { day: 4, title: "Ontstekingen dalen", text: "De ontstekingswaarden in je bloed dalen. Alcohol veroorzaakt systemische ontstekingen. Zonder alcohol herstellen je spieren sneller van microscheurtjes (spierpijn na training).", icon: "🔥" },
+      { day: 5, title: "Glycogeenvoorraad optimaliseert", text: "Je glycogeenvoorraden (de brandstof in je spieren) worden efficiënter aangevuld. Je zult merken dat je tijdens duursporten minder snel 'de man met de hamer' tegenkomt.", icon: "🔋" },
+      { day: 7, title: "Groeihormoon piekt", text: "Je slaaparchitectuur verbetert drastisch. Tijdens de diepe slaap maakt je lichaam Groeihormoon (HGH) aan. Alcohol onderdrukt dit hormoon tot wel 70%. Na een week nuchterheid piekt je natuurlijke spierherstel 's nachts.", icon: "💪" },
+      { day: 10, title: "Reactievermogen optimaal", text: "Je reactievermogen en motoriek zijn weer optimaal. Zelfs kleine hoeveelheden alcohol kunnen je balans en oog-handcoördinatie dagenlang subtiel verstoren. Nu ben je scherper tijdens technische sporten of balsporten.", icon: "⚡" },
+      { day: 14, title: "Vitamine-opname verbetert", text: "Je bloedvolume stabiliseert en de opname van vitamines (zoals B12 en foliumzuur) verbetert. Dit is essentieel voor de aanmaak van rode bloedcellen, die zuurstof naar je spieren transporteren.", icon: "🩸" },
+      { day: 21, title: "Vetverbranding efficiënter", text: "Je vetverbranding wordt efficiënter. Zolang er alcohol in je systeem zit, stopt je lichaam met het verbranden van vet om eerst de ethanol af te breken. Nu begint je lichaam gemakkelijker vetreserves aan te spreken voor energie.", icon: "🔥" },
+      { day: 30, title: "Lichaamssamenstelling verbetert", text: "Verbetering van de lichaamssamenstelling. Door het wegvallen van de lege calorieën en de afname van oestrogeen-achtige effecten van alcohol, verlies je gemakkelijker visceraal vet (buikvet) en behoud je makkelijker spiermassa.", icon: "💪" },
+      { day: 60, title: "Testosteron-cortisol ratio herstelt", text: "De testosteron-cortisol ratio herstelt zich. Alcohol verhoogt cortisol (stress/spierafbraak) en verlaagt testosteron (spieropbouw). Na 2 maanden ben je in een veel betere 'anabole' staat om echt kracht en spiermassa te winnen.", icon: "📈" },
+      { day: 90, title: "VO2-max verbetert", text: "Je VO2-max (maximale zuurstofopname) verbetert merkbaar. Je longen en hart werken beter samen, waardoor je conditie naar een niveau stijgt dat met alcohol simpelweg niet haalbaar was.", icon: "🫁" },
+      { day: 180, title: "Collageen synthese verbeterd", text: "De synthese van collageen is verbeterd. Alcohol remt de aanmaak van eiwitten die je pezen en banden sterk houden. Na een half jaar nuchterheid heb je een significant lager risico op blessures aan je gewrichten en pezen.", icon: "🦴" },
+      { day: 270, title: "Mentale weerbaarheid groter", text: "Je mentale weerbaarheid (grit) is groter. Je hebt geleerd om te presteren en te ontspannen zonder externe middelen. De 'focus' tijdens wedstrijden is scherper en je ervaart minder prestatie-angst.", icon: "🧠" },
+      { day: 365, title: "Volledig metabolisch fundament", text: "Je hebt een volledig nieuw metabolisch fundament. Je immuunsysteem is zo sterk dat je minder trainingsdagen mist door verkoudheid of griep. Je sportprestaties zijn nu gebaseerd op een lichaam dat 100% efficiënt functioneert, zonder de rem van toxische stoffen.", icon: "🏆" }
     ];
 
     const milestones = [
@@ -568,7 +652,8 @@
 
       timeElapsed = { days, hours, minutes };
 
-      const benefit = benefits.slice().reverse().find(b => days >= b.day) || benefits[0];
+      const activeBenefits = sportMode ? sportBenefits : benefits;
+      const benefit = activeBenefits.slice().reverse().find(b => days >= b.day) || activeBenefits[0];
       currentBenefit = benefit;
     }
 
@@ -652,9 +737,20 @@
             <div class="header">
               <div class="header-content">
                 <h1 class="header-title">Mijn Nuchtere Reis</h1>
-                <button id="editBtn" class="header-button">
-                  📅 Aanpassen
-                </button>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                  <div class="mode-toggle-container">
+                    <span class="mode-toggle-label">
+                      <span style="font-size: 1.25rem;">🏃</span>
+                      <span>Sportmodus</span>
+                    </span>
+                    <div id="modeToggle" class="toggle-switch ${sportMode ? 'active' : ''}">
+                      <div class="toggle-slider"></div>
+                    </div>
+                  </div>
+                  <button id="editBtn" class="header-button">
+                    📅 Aanpassen
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -731,7 +827,8 @@
                 <div class="milestone-grid">
                   ${milestones.map((milestone) => {
                     const achieved = timeElapsed.days >= milestone.days;
-                    const benefit = benefits.find(b => b.day === milestone.days);
+                    const activeBenefits = sportMode ? sportBenefits : benefits;
+                    const benefit = activeBenefits.find(b => b.day === milestone.days);
                     return `
                       <div class="milestone-card ${achieved ? 'milestone-achieved' : 'milestone-pending'}">
                         <div class="milestone-header">
@@ -778,6 +875,12 @@
         
         document.getElementById('editBtn').addEventListener('click', () => {
           showDatePicker = true;
+          render();
+        });
+        
+        document.getElementById('modeToggle').addEventListener('click', () => {
+          sportMode = !sportMode;
+          localStorage.setItem('sportMode', sportMode);
           render();
         });
         
