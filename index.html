@@ -1302,18 +1302,18 @@
               </div>
 
               <div class="reset-card">
-                <h3 class="reset-title">Opnieuw beginnen?</h3>
+                <h3 class="reset-title">Gedronken zonder nodige punten?</h3>
                 ${!showResetConfirm ? `
                   <button id="resetBtn" class="button-danger">
-                    Reis opnieuw beginnen
+                    Volledige reset
                   </button>
-                  <p class="text-small">Dit zet je startdatum op nu</p>
+                  <p class="text-small">Dit zet je startdatum op vandaag en verwijdert al je punten</p>
                 ` : `
                   <div>
-                    <p class="confirm-text">Weet je het zeker? Dit zet je startdatum op nu.</p>
+                    <p class="confirm-text">Gedronken zonder de nodige punten? Dit zet je startdatum op vandaag en verwijdert al je punten</p>
                     <div class="button-group">
                       <button id="confirmResetBtn" class="button-confirm">
-                        Ja, opnieuw beginnen
+                        Ja, alles opnieuw beginnen
                       </button>
                       <button id="cancelResetBtn" class="button-cancel">
                         Annuleren
