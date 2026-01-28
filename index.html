@@ -1087,8 +1087,10 @@
               ${closeBtnHtml}
               <div style="text-align: center;">
                 <div class="icon-circle">✨</div>
-                <h1 class="title-large">Begin je reis</h1>
-                <p class="subtitle">Wanneer begon je nuchtere leven?</p>
+                <h1 class="title-large">More Sober Days</h1>
+                <p class="subtitle">Behaal milestones en verdien punten door nuchter te blijven.</p>
+		<p class="subtitle">Spendeer deze dan in de drank-winkel om iets te drinken.</p>
+		<p class="subtitle" style="font-weight: bold;">Kies hieronder sinds wanneer je nuchter bent.</p>
               </div>
               
               <input
@@ -1099,11 +1101,11 @@
               />
               
               <button id="confirmBtn" class="button-primary" disabled>
-                Begin mijn reis
+                Begin mijn avontuur
               </button>
               
-              <div class="text-small">
-                Je kunt dit later altijd aanpassen
+              <div class="text-small" style="color: red; font-weight: bold;">
+                LET OP: Je kunt dit niet meer aanpassen.
               </div>
             </div>
           </div>
@@ -1158,9 +1160,6 @@
                       <div class="toggle-slider"></div>
                     </div>
                   </div>
-                  <button id="editBtn" class="header-button">
-                    📅 Aanpassen
-                  </button>
                 </div>
               </div>
             </div>
@@ -1325,11 +1324,6 @@
             </div>
           </div>
         `;
-        
-        document.getElementById('editBtn').addEventListener('click', () => {
-          showDatePicker = true;
-          render();
-        });
         
         document.getElementById('modeToggle').addEventListener('click', () => {
           sportMode = !sportMode;
