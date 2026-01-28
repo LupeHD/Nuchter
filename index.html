@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Track je nuchtere dagen en zie dagelijks positieve gezondheidsvoordelen">
   <meta name="theme-color" content="#10b981">
-  <title>Nuchtere Dagen Tracker</title>
+  <title>More Sober Days</title>
   
   <style>
     /* Definieer kleurvariabelen voor de thema's */
@@ -262,72 +262,85 @@
       padding: 1rem;
       background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
       border-radius: 9999px;
-      margin-bottom: 1rem;
-      font-size: 3rem;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+      transition: background 0.3s;
     }
 
     .icon-circle-small {
+      display: inline-flex;
       padding: 0.75rem;
       background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
       border-radius: 9999px;
-      margin-bottom: 1rem;
-      display: inline-flex;
-      font-size: 2rem;
+      font-size: 1.5rem;
+      transition: background 0.3s;
     }
 
     .icon-white {
-      padding: 0.75rem;
+      display: inline-flex;
+      padding: 1rem;
       background: white;
       border-radius: 9999px;
+      font-size: 2rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      font-size: 1.5rem;
     }
 
     .title-large {
-      font-size: 1.875rem;
-      font-weight: 300;
-      color: #1f2937;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 1rem;
       margin-bottom: 0.5rem;
-      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .title-large {
+        font-size: 2.25rem;
+      }
     }
 
     .subtitle {
-      color: #4b5563;
-      text-align: center;
+      color: #6b7280;
       margin-bottom: 2rem;
     }
 
     .input-datetime {
       width: 100%;
-      padding: 1rem;
+      padding: 0.75rem 1rem;
       border: 2px solid var(--border-medium);
       border-radius: 0.75rem;
-      font-size: 1.125rem;
+      font-size: 1rem;
       margin-bottom: 1.5rem;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .input-datetime:focus {
       outline: none;
       border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    body.sport-mode .input-datetime:focus {
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 
     .button-primary {
       width: 100%;
-      padding: 1rem 1.5rem;
+      padding: 0.875rem 1.5rem;
       background: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
       color: white;
       border: none;
       border-radius: 0.75rem;
-      font-weight: 500;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
     }
 
     .button-primary:hover:not(:disabled) {
-      opacity: 0.95;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      opacity: 0.9;
+      transform: translateY(-2px);
     }
 
     .button-primary:disabled {
@@ -335,78 +348,32 @@
       cursor: not-allowed;
     }
 
-    .button-danger {
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(to right, #ef4444, #ec4899);
-      color: white;
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 500;
-      cursor: pointer;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s;
-    }
-
-    .button-danger:hover {
-      background: linear-gradient(to right, #dc2626, #db2777);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .button-confirm {
-      padding: 0.5rem 1.25rem;
-      background: #dc2626;
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .button-confirm:hover {
-      background: #b91c1c;
-    }
-
-    .button-cancel {
-      padding: 0.5rem 1.25rem;
-      background: #e5e7eb;
-      color: #374151;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .button-cancel:hover {
-      background: #d1d5db;
-    }
-
     .text-small {
-      text-align: center;
+      color: #9ca3af;
       font-size: 0.875rem;
-      color: #6b7280;
+      text-align: center;
       margin-top: 1rem;
+    }
+
+    .space-y > * + * {
+      margin-top: 1.5rem;
     }
 
     .counter-title {
       font-size: 1.25rem;
-      font-weight: 300;
-      color: #4b5563;
-      margin-bottom: 2rem;
-      text-align: center;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
     }
 
     .counter-grid {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 640px) {
       .counter-grid {
-        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -416,53 +383,62 @@
 
     .counter-number {
       font-size: 3rem;
-      font-weight: 300;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--counter-1), var(--counter-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 0.5rem;
-      transition: color 0.3s;
+      transition: background 0.3s;
+    }
+
+    .counter-number-green {
+      background: linear-gradient(135deg, var(--counter-1), var(--counter-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .counter-number-teal {
+      background: linear-gradient(135deg, var(--counter-3), var(--counter-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     @media (min-width: 768px) {
       .counter-number {
-        font-size: 3.75rem;
+        font-size: 4rem;
       }
     }
 
-    .counter-number-green {
-      color: var(--counter-1);
-    }
-
-    .counter-number-emerald {
-      color: var(--counter-2);
-    }
-
-    .counter-number-teal {
-      color: var(--counter-3);
-    }
-
     .counter-label {
-      font-size: 0.875rem;
       color: #6b7280;
+      font-size: 0.875rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
     .divider {
-      padding-top: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
       border-top: 1px solid var(--border-light);
-      text-align: center;
     }
 
     .next-milestone-label {
+      text-align: center;
+      color: #9ca3af;
       font-size: 0.875rem;
-      color: #4b5563;
-      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
     }
 
     .next-milestone-content {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
     }
 
@@ -471,29 +447,36 @@
     }
 
     .milestone-title {
-      font-size: 1.125rem;
-      font-weight: 300;
-      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
     }
 
     .milestone-remaining {
-      font-size: 0.875rem;
       color: #6b7280;
+      font-size: 0.875rem;
     }
 
     .benefit-card {
-      background: linear-gradient(to bottom right, var(--bg-gradient-1), var(--bg-gradient-2));
+      background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
       border-radius: 1.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       padding: 2rem;
-      border: 1px solid var(--border-medium);
-      margin-bottom: 1.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      transition: background 0.3s;
     }
 
     .benefit-content {
       display: flex;
+      gap: 1.5rem;
       align-items: flex-start;
-      gap: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .benefit-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
     }
 
     .benefit-text {
@@ -501,14 +484,20 @@
     }
 
     .benefit-title {
-      font-size: 1.25rem;
-      font-weight: 300;
-      color: #1f2937;
-      margin-bottom: 0.5rem;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .benefit-title {
+        font-size: 1.875rem;
+      }
     }
 
     .benefit-description {
-      color: #374151;
+      color: rgba(255, 255, 255, 0.9);
       line-height: 1.625;
     }
 
@@ -521,8 +510,8 @@
 
     .section-title {
       font-size: 1.5rem;
-      font-weight: 300;
-      color: #1f2937;
+      font-weight: 700;
+      color: #111827;
     }
 
     .milestone-grid {
@@ -537,124 +526,333 @@
       }
     }
 
-    @media (min-width: 1024px) {
-      .milestone-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
     .milestone-card {
-      padding: 1.25rem;
+      padding: 1.5rem;
       border-radius: 1rem;
-      border: 2px solid #d1d5db;
+      border: 2px solid;
       transition: all 0.2s;
     }
 
     .milestone-achieved {
-      background: linear-gradient(to bottom right, var(--icon-bg-1), var(--icon-bg-2));
+      background: linear-gradient(to bottom right, var(--icon-bg-1), white);
       border-color: var(--border-dark);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     .milestone-pending {
       background: #f9fafb;
-      opacity: 0.5;
+      border-color: #e5e7eb;
     }
 
     .milestone-header {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       margin-bottom: 0.75rem;
     }
 
     .milestone-emoji {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
     }
 
     .milestone-name {
-      font-size: 1rem;
-      font-weight: 500;
-      color: #1f2937;
-      margin-bottom: 0.25rem;
+      flex: 1;
+      font-weight: 600;
+      color: #111827;
     }
 
     .milestone-badge {
+      padding: 0.25rem 0.75rem;
+      background: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+      color: white;
+      border-radius: 9999px;
       font-size: 0.75rem;
-      color: var(--text-accent);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .milestone-benefit {
       padding-top: 0.75rem;
-      border-top: 1px solid var(--border-medium);
+      margin-top: 0.75rem;
+      border-top: 1px solid var(--border-light);
     }
 
     .milestone-benefit-title {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #374151;
+      font-weight: 600;
+      color: var(--text-accent);
       margin-bottom: 0.25rem;
     }
 
     .milestone-benefit-text {
-      font-size: 0.75rem;
-      color: #4b5563;
+      color: #6b7280;
+      font-size: 0.875rem;
       line-height: 1.5;
     }
 
     .reset-card {
-      background: white;
+      background: #fef2f2;
       border-radius: 1.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
+      padding: 2rem;
       border: 1px solid #fecaca;
       text-align: center;
     }
 
     .reset-title {
-      font-size: 1.125rem;
-      font-weight: 300;
-      color: #374151;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #991b1b;
       margin-bottom: 1rem;
     }
 
+    .button-danger {
+      padding: 0.75rem 1.5rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .button-danger:hover {
+      background: #b91c1c;
+    }
+
     .confirm-text {
-      font-size: 0.875rem;
-      color: #374151;
+      color: #991b1b;
+      margin-bottom: 1rem;
       font-weight: 500;
-      margin-bottom: 0.75rem;
     }
 
     .button-group {
       display: flex;
-      gap: 0.75rem;
+      gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    .space-y {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+    .button-confirm {
+      padding: 0.75rem 1.5rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
-    .hidden {
-      display: none;
+    .button-confirm:hover {
+      background: #b91c1c;
+    }
+
+    .button-cancel {
+      padding: 0.75rem 1.5rem;
+      background: #e5e7eb;
+      color: #374151;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .button-cancel:hover {
+      background: #d1d5db;
+    }
+
+    /* Shop styles */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .shop-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .shop-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .shop-item {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 2px solid var(--border-light);
+      background: white;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .shop-item:hover {
+      border-color: var(--border-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .shop-item-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .shop-item-name {
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .shop-item-cost {
+      color: var(--text-accent);
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .quantity-button {
+      width: 2rem;
+      height: 2rem;
+      background: var(--border-light);
+      border: 1px solid var(--border-medium);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--text-accent);
+      transition: all 0.2s;
+    }
+
+    .quantity-button:hover:not(:disabled) {
+      background: var(--border-medium);
+      transform: scale(1.05);
+    }
+
+    .quantity-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .quantity-display {
+      min-width: 2rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #111827;
+    }
+
+    .shop-button {
+      width: 100%;
+      padding: 0.625rem 1rem;
+      background: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .shop-button:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .shop-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: #9ca3af;
+    }
+
+    .purchase-message {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .purchase-success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
+
+    .purchase-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  
+
   <script>
-    // App state
-    let startDate = localStorage.getItem('sobrietyStartDate') || null;
-    let showDatePicker = !startDate;
-    let timeElapsed = { days: 0, hours: 0, minutes: 0 };
-    let currentBenefit = null;
-    let tempDate = '';
-    let showResetConfirm = false;
+    let startDate = localStorage.getItem('sobrietyStartDate') || '';
     let sportMode = localStorage.getItem('sportMode') === 'true';
+    let showShop = localStorage.getItem('showShop') === 'true';
+    let showDatePicker = !startDate;
+    let showResetConfirm = false;
+    let tempDate = '';
+    let purchaseMessage = '';
+    let purchaseType = '';
+    let shopQuantities = { beer: 1, wine: 1, cocktail: 1 };
+    let savedPoints = parseInt(localStorage.getItem('savedPoints') || '0');
+    let purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory') || '{"beer": 0, "wine": 0, "cocktail": 0}');
+    
+    // Punten systeem
+    let achievedMilestones = JSON.parse(localStorage.getItem('achievedMilestones') || '[]');
+
+    const timeElapsed = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    };
+
+    const milestones = [
+      { days: 1, title: "1 Dag", icon: "🌟" },
+      { days: 2, title: "2 Dagen", icon: "💪" },
+      { days: 3, title: "3 Dagen", icon: "✨" },
+      { days: 4, title: "4 Dagen", icon: "🍃" },
+      { days: 5, title: "5 Dagen", icon: "😴" },
+      { days: 7, title: "1 Week", icon: "🌱" },
+      { days: 10, title: "10 Dagen", icon: "✨" },
+      { days: 14, title: "2 Weken", icon: "🌿" },
+      { days: 21, title: "3 Weken", icon: "🧠" },
+      { days: 30, title: "1 Maand", icon: "🌳" },
+      { days: 60, title: "2 Maanden", icon: "💚" },
+      { days: 90, title: "3 Maanden", icon: "🏆" },
+      { days: 180, title: "6 Maanden", icon: "⭐" },
+      { days: 270, title: "9 Maanden", icon: "💎" },
+      { days: 365, title: "1 Jaar", icon: "👑" }
+    ];
 
     const benefits = [
       { day: 1, title: "Bloedsuiker stabiliseert", text: "Je bloedsuikerspiegel stabiliseert. De focus van je lever verschuift van alcohol verwerken naar het reguleren van je energie. Je kunt je nog wat wankel of zweterig voelen, maar de acute giftigheid neemt af.", icon: "🌟" },
@@ -692,23 +890,14 @@
       { day: 365, title: "Volledig metabolisch fundament", text: "Je hebt een volledig nieuw metabolisch fundament. Je immuunsysteem is zo sterk dat je minder trainingsdagen mist door verkoudheid of griep. Je sportprestaties zijn nu gebaseerd op een lichaam dat 100% efficiënt functioneert, zonder de rem van toxische stoffen.", icon: "🏆" }
     ];
 
-    const milestones = [
-      { days: 1, title: "1 Dag", icon: "🌟" },
-      { days: 2, title: "2 Dagen", icon: "💪" },
-      { days: 3, title: "3 Dagen", icon: "✨" },
-      { days: 4, title: "4 Dagen", icon: "🍃" },
-      { days: 5, title: "5 Dagen", icon: "😴" },
-      { days: 7, title: "1 Week", icon: "🌱" },
-      { days: 10, title: "10 Dagen", icon: "✨" },
-      { days: 14, title: "2 Weken", icon: "🌿" },
-      { days: 21, title: "3 Weken", icon: "🧠" },
-      { days: 30, title: "1 Maand", icon: "🌳" },
-      { days: 60, title: "2 Maanden", icon: "💚" },
-      { days: 90, title: "3 Maanden", icon: "🏆" },
-      { days: 180, title: "6 Maanden", icon: "⭐" },
-      { days: 270, title: "9 Maanden", icon: "💎" },
-      { days: 365, title: "1 Jaar", icon: "👑" }
+    const shopItems = [
+      { id: 'beer', name: 'Biertje', icon: '🍺', cost: 15 },
+      { id: 'wine', name: 'Glas wijn', icon: '🍷', cost: 20 },
+      { id: 'cocktail', name: 'Cocktail', icon: '🍹', cost: 25 }
     ];
+
+    const activeBenefits = sportMode ? sportBenefits : benefits;
+    const currentBenefit = activeBenefits.find(b => b.day === timeElapsed.days);
 
     function updateTime() {
       if (!startDate) return;
@@ -716,31 +905,118 @@
       const start = new Date(startDate);
       const now = new Date();
       const diff = now - start;
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-      timeElapsed = { days, hours, minutes };
-
-      const activeBenefits = sportMode ? sportBenefits : benefits;
-      const benefit = activeBenefits.slice().reverse().find(b => days >= b.day) || activeBenefits[0];
-      currentBenefit = benefit;
+      
+      timeElapsed.days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      timeElapsed.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      timeElapsed.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      timeElapsed.seconds = Math.floor((diff % (1000 * 60)) / 1000);
     }
 
-    function handleSetStartDate(date) {
-      localStorage.setItem('sobrietyStartDate', date);
-      startDate = date;
+    function calculatePoints() {
+      // 5 punten per dag
+      let points = timeElapsed.days * 5;
+      
+      // Mijlpalen die een bonus geven: 1 week, 2 weken, 1 maand, 3 maanden, 6 maanden, 1 jaar
+      const bonusMilestones = [7, 14, 30, 90, 180, 365];
+      
+      // Check welke mijlpalen zijn behaald en voeg bonussen toe
+      let newMilestonesAchieved = false;
+      bonusMilestones.forEach(milestoneDays => {
+        if (timeElapsed.days >= milestoneDays) {
+          if (!achievedMilestones.includes(milestoneDays)) {
+            // Nieuwe mijlpaal behaald! Voeg toe aan array
+            achievedMilestones.push(milestoneDays);
+            newMilestonesAchieved = true;
+          }
+          // Voeg bonus toe voor deze mijlpaal (5 punten per mijlpaal)
+          points += 5;
+        }
+      });
+      
+      // Opslaan van behaalde mijlpalen als er nieuwe zijn
+      if (newMilestonesAchieved) {
+        localStorage.setItem('achievedMilestones', JSON.stringify(achievedMilestones));
+      }
+      
+      // Voeg opgeslagen punten toe
+      return points + savedPoints;
+    }
+
+    function purchaseDrink(item, quantity) {
+      const currentPoints = calculatePoints();
+      const totalCost = item.cost * quantity;
+      
+      if (currentPoints < totalCost) {
+        purchaseMessage = `Je hebt niet genoeg punten! Je hebt ${currentPoints} punten, maar je hebt ${totalCost} punten nodig.`;
+        purchaseType = 'error';
+      } else {
+        // Bereken hoeveel punten overblijven na aankoop
+        const remainingPoints = currentPoints - totalCost;
+        
+        // Reset naar nu (0 dagen) - zoals de reset functie
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const dateString = `${year}-${month}-${day}T${hours}:${minutes}`;
+        
+        startDate = dateString;
+        localStorage.setItem('sobrietyStartDate', startDate);
+        
+        // Reset achievedMilestones (nieuwe start)
+        achievedMilestones = [];
+        localStorage.setItem('achievedMilestones', JSON.stringify(achievedMilestones));
+        
+        // Bewaar de overgebleven punten
+        savedPoints = remainingPoints;
+        localStorage.setItem('savedPoints', savedPoints);
+        
+        // Update purchase history
+        purchaseHistory[item.id] = (purchaseHistory[item.id] || 0) + quantity;
+        localStorage.setItem('purchaseHistory', JSON.stringify(purchaseHistory));
+        
+        const itemText = quantity === 1 ? item.name : `${quantity}x ${item.name}`;
+        purchaseMessage = `Gefeliciteerd! Je hebt ${itemText} gekocht voor ${totalCost} punten. Geniet ervan! 🎉`;
+        purchaseType = 'success';
+      }
+      
+      render();
+      
+      // Verwijder bericht na 4 seconden
+      setTimeout(() => {
+        purchaseMessage = '';
+        render();
+      }, 4000);
+    }
+
+    function updateQuantity(itemId, change) {
+      shopQuantities[itemId] = Math.max(1, shopQuantities[itemId] + change);
+      render();
+    }
+
+    function handleSetStartDate(dateString) {
+      localStorage.setItem('sobrietyStartDate', dateString);
+      startDate = dateString;
+      achievedMilestones = []; // Reset mijlpalen bij nieuwe startdatum
+      localStorage.setItem('achievedMilestones', JSON.stringify(achievedMilestones));
+      savedPoints = 0; // Reset opgeslagen punten bij nieuwe startdatum
+      localStorage.setItem('savedPoints', '0');
       showDatePicker = false;
       tempDate = '';
       render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function handleConfirmDate() {
       if (tempDate) {
-        // If it's a date-only string (YYYY-MM-DD), append start of day time to ensure it counts as full day
-        if (tempDate.length === 10) {
-            handleSetStartDate(tempDate + 'T00:00');
+        const selectedDate = new Date(tempDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate > today) {
+          alert('Je kunt geen toekomstige datum kiezen!');
         } else {
             handleSetStartDate(tempDate);
         }
@@ -758,6 +1034,10 @@
       
       localStorage.setItem('sobrietyStartDate', dateString);
       startDate = dateString;
+      achievedMilestones = []; // Reset mijlpalen
+      localStorage.setItem('achievedMilestones', JSON.stringify(achievedMilestones));
+      savedPoints = 0; // Reset opgeslagen punten
+      localStorage.setItem('savedPoints', '0');
       showResetConfirm = false;
       render();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -827,12 +1107,13 @@
       } else {
         updateTime();
         const nextMilestone = milestones.find(m => m.days > timeElapsed.days);
+        const totalPoints = calculatePoints();
         
         root.innerHTML = `
           <div>
             <div class="header">
               <div class="header-content">
-                <h1 class="header-title">Mijn Nuchtere Reis</h1>
+                <h1 class="header-title">More Sober Days</h1>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                   <div class="mode-toggle-container">
                     <span class="mode-toggle-label">
@@ -840,6 +1121,15 @@
                       <span>Sportmodus</span>
                     </span>
                     <div id="modeToggle" class="toggle-switch ${sportMode ? 'active' : ''}">
+                      <div class="toggle-slider"></div>
+                    </div>
+                  </div>
+                  <div class="mode-toggle-container">
+                    <span class="mode-toggle-label">
+                      <span style="font-size: 1.25rem;">🛒</span>
+                      <span>Drank-winkel</span>
+                    </span>
+                    <div id="shopToggle" class="toggle-switch ${showShop ? 'active' : ''}">
                       <div class="toggle-slider"></div>
                     </div>
                   </div>
@@ -864,6 +1154,14 @@
                     </div>
                     <div class="counter-label">
                       ${timeElapsed.days === 1 ? 'Dag' : 'Dagen'}
+                    </div>
+                  </div>
+                  <div class="counter-item">
+                    <div class="counter-number counter-number-teal">
+                      ${totalPoints}
+                    </div>
+                    <div class="counter-label">
+                      Punten
                     </div>
                   </div>
                 </div>
@@ -898,6 +1196,54 @@
                 </div>
               ` : ''}
 
+              ${showShop ? `
+              <div class="card">
+                <div class="section-header">
+                  <span style="font-size: 1.5rem;">🛒</span>
+                  <h3 class="section-title">Drank-winkel</h3>
+                </div>
+                <p style="color: #6b7280; margin-bottom: 1.5rem; text-align: center;">
+                  Wissel je punten in voor een drankje
+                </p>
+                
+                ${purchaseMessage ? `
+                  <div class="purchase-message purchase-${purchaseType}">
+                    ${purchaseMessage}
+                  </div>
+                ` : ''}
+                
+                <div class="shop-grid">
+                  ${shopItems.map(item => {
+                    const quantity = shopQuantities[item.id];
+                    const totalCost = item.cost * quantity;
+                    const purchased = purchaseHistory[item.id] || 0;
+                    return `
+                    <div class="shop-item">
+                      <div class="shop-item-icon">${item.icon}</div>
+                      <div class="shop-item-name">${item.name}</div>
+                      <div class="shop-item-cost">${item.cost} punten</div>
+                      ${purchased > 0 ? `<div style="color: #9ca3af; font-size: 0.75rem; margin-bottom: 0.5rem;">Al ${purchased}x gekocht</div>` : ''}
+                      <div class="quantity-control">
+                        <button class="quantity-button" data-item-id="${item.id}" data-action="decrease" ${quantity <= 1 ? 'disabled' : ''}>−</button>
+                        <div class="quantity-display">${quantity}</div>
+                        <button class="quantity-button" data-item-id="${item.id}" data-action="increase">+</button>
+                      </div>
+                      <div style="color: #6b7280; font-size: 0.875rem; margin-bottom: 0.75rem;">
+                        Totaal: ${totalCost} punten
+                      </div>
+                      <button 
+                        class="shop-button" 
+                        data-item-id="${item.id}"
+                        ${totalPoints < totalCost ? 'disabled' : ''}
+                      >
+                        ${totalPoints < totalCost ? 'Te weinig punten' : 'Koop'}
+                      </button>
+                    </div>
+                  `}).join('')}
+                </div>
+              </div>
+              ` : ''}
+
               <div class="card">
                 <div class="section-header">
                   <span style="font-size: 1.5rem;">🏆</span>
@@ -909,12 +1255,14 @@
                     const achieved = timeElapsed.days >= milestone.days;
                     const activeBenefits = sportMode ? sportBenefits : benefits;
                     const benefit = activeBenefits.find(b => b.day === milestone.days);
+                    const bonusMilestones = [7, 14, 30, 90, 180, 365];
+                    const hasBonus = bonusMilestones.includes(milestone.days);
                     return `
                       <div class="milestone-card ${achieved ? 'milestone-achieved' : 'milestone-pending'}">
                         <div class="milestone-header">
                           <div class="milestone-emoji">${milestone.icon}</div>
                           <div class="milestone-name">${milestone.title}</div>
-                          ${achieved ? '<div class="milestone-badge">✓ Behaald</div>' : ''}
+                          ${achieved ? `<div class="milestone-badge">✓ Behaald${hasBonus ? ' +5 punten' : ''}</div>` : ''}
                         </div>
                         ${benefit && achieved ? `
                           <div class="milestone-benefit">
@@ -962,6 +1310,33 @@
           sportMode = !sportMode;
           localStorage.setItem('sportMode', sportMode);
           render();
+        });
+        
+        document.getElementById('shopToggle').addEventListener('click', () => {
+          showShop = !showShop;
+          localStorage.setItem('showShop', showShop);
+          render();
+        });
+        
+        // Shop button event listeners
+        document.querySelectorAll('.quantity-button').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const itemId = e.target.dataset.itemId;
+            const action = e.target.dataset.action;
+            const change = action === 'increase' ? 1 : -1;
+            updateQuantity(itemId, change);
+          });
+        });
+
+        document.querySelectorAll('.shop-button').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const itemId = e.target.dataset.itemId;
+            const item = shopItems.find(i => i.id === itemId);
+            const quantity = shopQuantities[itemId];
+            if (item) {
+              purchaseDrink(item, quantity);
+            }
+          });
         });
         
         const resetBtn = document.getElementById('resetBtn');
