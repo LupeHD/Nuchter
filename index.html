@@ -1134,6 +1134,10 @@
         updateTime();
         const nextMilestone = milestones.find(m => m.days > timeElapsed.days);
         const totalPoints = calculatePoints();
+        const activeBenefits = sportMode ? sportBenefits : benefits;
+        const currentBenefit = activeBenefits
+          .filter(b => b.day <= timeElapsed.days)
+          .sort((a, b) => b.day - a.day)[0];
         
         // LET OP: Hier is de inline style verwijderd en vervangen door class="header-controls"
         root.innerHTML = `
@@ -1207,7 +1211,7 @@
               ${currentBenefit ? `
                 <div class="benefit-card">
                   <div class="benefit-content">
-                    <div class="icon-white">✨</div>
+                    <div class="icon-white">${currentBenefit.icon}</div>
                     <div class="benefit-text">
                       <h3 class="benefit-title">
                         ${currentBenefit.title}
